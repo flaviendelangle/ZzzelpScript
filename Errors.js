@@ -155,8 +155,6 @@ function ZzzelpScriptErrors() {
 		return date_str;
 	};
 
-	if(document.location.href.indexOf('?simu_chasses') == -1) {
-		//this.init();
-	}
+	this.init();
 }
 

@@ -540,10 +540,10 @@ function ZzzelpScriptMessagerie() {
 		if(localStorage.getItem('zzzelp_rangs_' + ze_serveur)) {
 			new ZzzelpScriptAjax({ method : 'GET', domain : 'fourmizzz', url : 'classementAlliance.php?alliance=' + galliance, addDOM : true, destroyDOM : false },
 				{ success : function(zone_page) {
-					var rangs = JSON.parse(localStorage.getItem('zzzelp_rangs_' + ze_serveur));
-					ze_Affichage_rangs(rangs, 1, galliance, zone_page);
-					var	chaine = ze_Analyser_chaine(ze_Recuperer_chaine(zone_page));
-					messagerie.addGroups(chaine);
+					var rangs = JSON.parse(localStorage.getItem('zzzelp_rangs_' + ze_serveur)),
+						chaine = new ZzzelpScriptChaine(zone_page);
+					chaine.retrieve(rangs, 0, galliance);
+					messagerie.addGroups(chaine.analyse());
 				}
 			});
 		}

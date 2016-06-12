@@ -60,8 +60,6 @@ function ZzzelpScriptAjax(values, callBacks) {
 				var response_maping = ['unknown_player', 'authentication_issue', 'success'],
 					data = ajax.response(ajax.xdr.responseText),
 					response_type = response_maping[data.etat];
-				console.log(ajax.callBacks);
-				console.log(response_type)
 				if(response_type in ajax.callBacks) {
 					ajax.callBacks[response_type](data.resultats, ajax);
 				}

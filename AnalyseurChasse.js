@@ -32,29 +32,29 @@ function ZzzelpScriptAnalyseurChasse(chasses) {
 			}
 		},
 		{
-			regexp : 'Vous infligez <strong>([ 0-9]+)\\(\\+([ 0-9]+)\\)<\\/strong> dégâts et tuez <strong>([ 0-9]+)<\\/strong> ennemie|ennemies',
+			regexp : 'Vous infligez (<strong>|)([ 0-9]+)\\(\\+([ 0-9]+)\\)(<\\/strong>|) dégâts et tuez (<strong>|)([ 0-9]+)(<\\/strong>|) ennemie|ennemies',
 			action : function(valeurs, ligne, regexp) {
 				var variables = new RegExp(regexp).exec(ligne),
-					valeur = parseInt(variables[3].replace(/ /g, ''));
+					valeur = parseInt(variables[6].replace(/ /g, ''));
 				valeurs.defenseur.total_morts += valeur;
 				valeurs.defenseur.morts.push(valeur);
 				valeurs.attaquant.degats.push({ 
-					HB : parseInt(variables[1].replace(/ /g, '')), 
-					bonus : parseInt(variables[2].replace(/ /g, ''))
+					HB : parseInt(variables[2].replace(/ /g, '')), 
+					bonus : parseInt(variables[3].replace(/ /g, ''))
 				});
 				return valeurs;
 			}
 		},
 		{
-			regexp : 'ennemie inflige <strong>([ 0-9]+)\\(\\+([ 0-9]+)\\)<\\/strong> dégâts à vos fourmis et en tue <strong>([ 0-9]+)<\\/strong>',
+			regexp : 'ennemie inflige (<strong>|)([ 0-9]+)\\(\\+([ 0-9]+)\\)(<\\/strong>|) dégâts à vos fourmis et en tue (<strong>|)([ 0-9]+)(<\\/strong>|)',
 			action : function(valeurs, ligne, regexp) {
 				var variables = new RegExp(regexp).exec(ligne),
-					valeur = parseInt(variables[3].replace(/ /g, ''));
+					valeur = parseInt(variables[6].replace(/ /g, ''));
 				valeurs.attaquant.total_morts += valeur;
 				valeurs.attaquant.morts.push(valeur);
 				valeurs.defenseur.degats.push({ 
-					HB : parseInt(variables[1].replace(/ /g, '')), 
-					bonus : parseInt(variables[2].replace(/ /g, ''))
+					HB : parseInt(variables[2].replace(/ /g, '')), 
+					bonus : parseInt(variables[3].replace(/ /g, ''))
 				});
 				return valeurs;
 			}

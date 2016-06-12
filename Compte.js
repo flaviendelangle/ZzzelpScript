@@ -6,7 +6,7 @@ function ZzzelpScriptCompte() {
 
 	/*
 		Initialisation et mise à jour des niveaux
-	*/
+	*/ 
 
 	this.init = function() {
 		var niveaux = that.getLocalStorage();
@@ -14,9 +14,8 @@ function ZzzelpScriptCompte() {
 			that.getNiveauxAjax('construction', that.nextStepUpdateNiveaux);
 		}
 		else {
-			var last_update = Math.min(that.niveaux.construction.update, that.niveaux.laboratoire.update);
+			var last_update = Math.min(that.niveaux.construction.update_local, that.niveaux.laboratoire.update_local);
 			if(time_fzzz() - last_update > 86400) {
-				console.log('ON UPDATE2');
 				that.getNiveauxAjax('construction', that.nextStepUpdateNiveaux);
 			}
 		}

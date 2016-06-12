@@ -173,8 +173,12 @@ function ZzzelpScriptSmileys(lieu, section) {
 		else {
 			arg = 'message';
 		}
+		smileys.onClick(smiley, arg, 'z' + i + '_'  + smiley.dataset.nom);
+	};
+
+	this.onClick = function(smiley, lieu, name) {
 		smiley.onclick = function onclick(event) {
-			addRaccourciSmiley(arg, 'z' + i + '_'  + this.dataset.nom);
+			addRaccourciSmiley(lieu, name);
 			return false;
 		};
 	};

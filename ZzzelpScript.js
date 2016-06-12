@@ -46,28 +46,30 @@ function ZzzelpScript() {
 
 		alliance : function() {
 			if (~url.indexOf('Membres')) {
-				ze_Importation_rang(0, 0);
 				ze_Amelioration_membres_alliance(0);
-				ze_Affichages_limites_membres(false);
+				new ZzzelpScriptChaine().retrieve(0, 0);
 			}
-			else if(document.querySelectorAll('#formulaireChat').length > 0 && ZzzelpScript.parameters('parametres', ['perso', 'perso_smileys'])) {
-				$('#formulaireChat').unbind('submit');
-				document.querySelector('#formulaireChat').onsubmit = function onsubmit(e) {
-					e.preventDefault();
-					ze_Envoi_chat("alliance");
-				};
-				new ZzzelpScriptSmileys('CA');
+			else if(document.querySelectorAll('#formulaireChat').length > 0) {
+				if(ZzzelpScript.parameters('parametres', ['perso', 'perso_smileys'])) {
+					$('#formulaireChat').unbind('submit');
+					document.querySelector('#formulaireChat').onsubmit = function onsubmit(e) {
+						e.preventDefault();
+						ze_Envoi_chat("alliance");
+					};
+					new ZzzelpScriptSmileys('CA');
+				}
 			}
 			else if (~url.indexOf('messCollectif') && ZzzelpScript.parameters('parametres', ['perso', 'perso_smileys'])) {
 				new ZzzelpScriptSmileys('MC');
 			}
-			else if (~url.indexOf('forum_menu') && ZzzelpScript.parameters('parametres', ['perso', 'perso_smileys'])) {
-				ze_Amelioration_FI();
-			}
-			if(~url.indexOf('forum_menu')) {
+			else if (~url.indexOf('forum_menu')) {
+				new ZzzelpScriptForum();
 				var ID_sujet = ze_Analyser_URL('ID_sujet');
 				if (ID_sujet) {
 					xajax_callGetTopic(parseInt(ID_sujet));
+				}
+				if(ZzzelpScript.parameters('parametres', ['perso', 'perso_smileys'])) {
+					ze_Amelioration_FI();
 				}
 			}
 		},
@@ -90,7 +92,7 @@ function ZzzelpScript() {
 		classementAlliance : function() {
 			var alliance = ze_Analyser_URL('alliance');
 			if (alliance) {
-				ze_Importation_rang(1, 0);	
+				new ZzzelpScriptChaine().retrieve(1, 0);	
 				ze_Amelioration_membres_alliance();
 				if(ZzzelpScript.parameters('parametres', ['perso', 'perso_page_description'])) {
 					ze_Classement_alliance_guerre(alliance);
@@ -289,8 +291,16 @@ function ZzzelpScript() {
 	};
 
 	this.initHelp = function() {
-		var txt = '<li><a class="boutonIntro" style="cursor:pointer" onclick="ze_Lancement_aide_Zzzelp(\'zzzelpscript\')"><span></span>Aide ZzzelpScript</a></li>';
-		document.querySelector('#menuFourmiliere').innerHTML += txt;
+		var li = document.createElement('li'),
+			a = document.createElement('a');
+		a.className = 'boutonIntro';
+		a.setAttribute('style', 'cursor:pointer');
+		a.onclick = function onclick(event) {
+			new ZzzelpScriptAide('zzzelpscript');
+		};
+		a.innerHTML = '<span></span>Aide ZzzelpScript';
+		li.appendChild(a);
+		document.querySelector('#menuAide').appendChild(li);
 	};
 
 	this.main = function() {
@@ -363,7 +373,7 @@ ZzzelpScript.auth = function() {
 
 
 if(typeof document.querySelector('#pseudo') != 'undefined' && ~url.indexOf('fourmizzz.fr/')) {
-	var url_zzzelp = 'http://zzzelp.fr/',
+	var url_zzzelp = 'http://test.zzzelp.fr/',
 		coordonnees_souris = {
 			x: 0,
 			y: 0
